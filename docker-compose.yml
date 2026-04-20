@@ -1,0 +1,15 @@
+version: '3.8'
+
+services:
+  app:
+    build: .
+    container_name: nr10_cursos
+    ports:
+      - "3000:3000"
+    restart: always
+    volumes:
+      # Monta o diretório de dados para persistir o banco de dados sqlite
+      - ./data:/app/data
+    environment:
+      - DATABASE_URL=file:/app/data/dev.db
+      - SESSION_SECRET=nr10_training_super_secret_key_change_in_prod

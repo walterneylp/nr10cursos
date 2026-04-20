@@ -1,0 +1,84 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id            String          @id @default(cuid())
+  name          String
+  email         String          @unique
+  password_hash String
+  role          String          @default("STUDENT") // ADMIN or STUDENT
+  createdAt     DateTime        @default(now())
+  progresses    LessonProgress[]
+  testAttempts  TestAttempt[]
+}
+
+model Course {
+  id          String         @id @default(cuid())
+  title       String
+  description String
+  createdAt   DateTime       @default(now())
+  modules     Module[]
+  questions   ExamQuestion[]
+  testAttempts TestAttempt[]
+}
+
+model Module {
+  id        String   @id @default(cuid())
+  courseId  String
+  title     String
+  order     Int      @default(0)
+  course    Course   @relation(fields: [courseId], references: [id], onDelete: Cascade)
+  lessons   Lesson[]
+}
+
+model Lesson {
+  id          String           @id @default(cuid())
+  moduleId    String
+  title       String
+  description String?
+  videoUrl    String?
+  pdfUrl      String?
+  order       Int              @default(0)
+  module      Module           @relation(fields: [moduleId], references: [id], onDelete: Cascade)
+  progresses  LessonProgress[]
+}
+
+model ExamQuestion {
+  id             String @id @default(cuid())
+  courseId       String
+  text           String
+  optionsJson    String // Storing options as JSON array of strings
+  correctOption  Int    // Index of the correct option (0, 1, 2, 3...)
+  course         Course @relation(fields: [courseId], references: [id], onDelete: Cascade)
+}
+
+model LessonProgress {
+  id          String   @id @default(cuid())
+  userId      String
+  lessonId    String
+  completedAt DateTime @default(now())
+  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  lesson      Lesson   @relation(fields: [lessonId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, lessonId])
+}
+
+model TestAttempt {
+  id        String   @id @default(cuid())
+  userId    String
+  courseId  String
+  score     Float
+  passed    Boolean
+  createdAt DateTime @default(now())
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  course    Course   @relation(fields: [courseId], references: [id], onDelete: Cascade)
+}
