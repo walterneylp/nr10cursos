@@ -39,8 +39,9 @@ export async function createLesson(moduleId: string, courseId: string, formData:
   const title = formData.get("title") as string;
   const videoUrl = formData.get("videoUrl") as string;
   const pdfUrl = formData.get("pdfUrl") as string;
+  const audioUrl = formData.get("audioUrl") as string;
   const order = parseInt(formData.get("order") as string) || 0;
-  await prisma.lesson.create({ data: { moduleId, title, videoUrl, pdfUrl, order } });
+  await prisma.lesson.create({ data: { moduleId, title, videoUrl, pdfUrl, audioUrl, order } });
   revalidatePath(`/admin/courses/${courseId}`);
 }
 
@@ -48,8 +49,9 @@ export async function updateLesson(id: string, courseId: string, formData: FormD
   const title = formData.get("title") as string;
   const videoUrl = formData.get("videoUrl") as string;
   const pdfUrl = formData.get("pdfUrl") as string;
+  const audioUrl = formData.get("audioUrl") as string;
   const order = parseInt(formData.get("order") as string) || 0;
-  await prisma.lesson.update({ where: { id }, data: { title, videoUrl, pdfUrl, order } });
+  await prisma.lesson.update({ where: { id }, data: { title, videoUrl, pdfUrl, audioUrl, order } });
   revalidatePath(`/admin/courses/${courseId}`);
 }
 

@@ -47,6 +47,7 @@ model Lesson {
   description String?
   videoUrl    String?
   pdfUrl      String?
+  audioUrl    String?
   order       Int              @default(0)
   module      Module           @relation(fields: [moduleId], references: [id], onDelete: Cascade)
   progresses  LessonProgress[]

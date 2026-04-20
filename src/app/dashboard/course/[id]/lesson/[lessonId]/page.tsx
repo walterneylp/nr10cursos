@@ -44,6 +44,16 @@ export default async function LessonPage({ params }: { params: Promise<{ id: str
         </div>
       )}
 
+      {lesson.audioUrl && (
+        <div className="p-6 bg-slate-50 border border-slate-200 rounded-lg space-y-4">
+          <h3 className="font-bold text-slate-800">Áudio da Aula</h3>
+          <audio controls className="w-full">
+            <source src={lesson.audioUrl} type="audio/mpeg" />
+            Seu navegador não suporta o elemento de áudio.
+          </audio>
+        </div>
+      )}
+
       {lesson.pdfUrl && (
         <div className="p-6 bg-blue-50 border border-blue-100 rounded-lg flex items-center justify-between">
           <div>

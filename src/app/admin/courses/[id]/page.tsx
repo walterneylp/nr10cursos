@@ -61,6 +61,7 @@ export default async function AdminCourseDetails({ params }: { params: Promise<{
                         <span className="font-semibold text-blue-600 block">{lesson.order}. {lesson.title}</span>
                         {lesson.videoUrl && <span className="text-xs text-gray-500">Vídeo </span>}
                         {lesson.pdfUrl && <span className="text-xs text-gray-500">PDF </span>}
+                        {lesson.audioUrl && <span className="text-xs text-gray-500">Áudio </span>}
                       </div>
                       <div className="flex gap-2">
                         <EditLessonModal courseId={courseId} lesson={lesson} />
@@ -78,6 +79,7 @@ export default async function AdminCourseDetails({ params }: { params: Promise<{
                   <Input name="title" size={1} required placeholder="Título da Aula" className="h-8 text-sm" />
                   <Input name="videoUrl" size={1} placeholder="URL Embed YT/Vimeo" className="h-8 text-sm" />
                   <Input name="pdfUrl" size={1} placeholder="URL do PDF (Opcional)" className="h-8 text-sm" />
+                  <Input name="audioUrl" size={1} placeholder="URL do Áudio (Opcional)" className="h-8 text-sm" />
                   <div className="flex gap-2">
                     <Input name="order" type="number" placeholder="Ord." defaultValue={mod.lessons.length + 1} className="h-8 w-20 text-sm" />
                     <Button size="sm" className="h-8 w-full">Adicionar Aula</Button>

@@ -9,7 +9,6 @@ import {
   DialogContent,
   DialogHeader,
   DialogTitle,
-  DialogTrigger,
 } from "@/components/ui/dialog";
 import { updateModule, updateLesson } from "@/app/admin/courses/actions";
 
@@ -23,9 +22,7 @@ export function EditModuleModal({ courseId, mod }: { courseId: string, mod: any 
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>
-      <DialogTrigger asChild>
-        <Button variant="outline" size="sm" className="h-6">Editar Módulo</Button>
-      </DialogTrigger>
+      <Button variant="outline" size="sm" className="h-6" onClick={() => setOpen(true)}>Editar Módulo</Button>
       <DialogContent>
         <DialogHeader>
           <DialogTitle>Editar Módulo</DialogTitle>
@@ -56,9 +53,7 @@ export function EditLessonModal({ courseId, lesson }: { courseId: string, lesson
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>
-      <DialogTrigger asChild>
-        <Button variant="outline" size="sm" className="h-6">Editar Aula</Button>
-      </DialogTrigger>
+      <Button variant="outline" size="sm" className="h-6" onClick={() => setOpen(true)}>Editar Aula</Button>
       <DialogContent>
         <DialogHeader>
           <DialogTitle>Editar Aula</DialogTitle>
@@ -75,6 +70,10 @@ export function EditLessonModal({ courseId, lesson }: { courseId: string, lesson
           <div className="space-y-2">
             <Label>URL do PDF</Label>
             <Input name="pdfUrl" defaultValue={lesson.pdfUrl || ""} />
+          </div>
+          <div className="space-y-2">
+            <Label>URL do Áudio</Label>
+            <Input name="audioUrl" defaultValue={lesson.audioUrl || ""} />
           </div>
           <div className="space-y-2">
             <Label>Ordem</Label>
