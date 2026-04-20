@@ -6,6 +6,7 @@ import { Label } from "@/components/ui/label";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { createModule, deleteModule, createLesson, deleteLesson, createQuestion, deleteQuestion } from "../actions";
+import { EditModuleModal, EditLessonModal } from "@/components/admin/EditComponents";
 
 export default async function AdminCourseDetails({ params }: { params: Promise<{ id: string }> }) {
   const resolvedParams = await params;
@@ -45,9 +46,12 @@ export default async function AdminCourseDetails({ params }: { params: Promise<{
             <Card key={mod.id} className="border bg-slate-50">
               <CardHeader className="py-3 px-4 flex flex-row items-center justify-between border-b bg-slate-100 rounded-t-lg">
                 <span className="font-bold">{mod.order}. {mod.title}</span>
-                <form action={async () => { "use server"; await deleteModule(mod.id, courseId); }}>
-                  <Button variant="ghost" size="sm" className="text-red-500 h-6">Excluir Módulo</Button>
-                </form>
+                <div className="flex gap-2">
+                  <EditModuleModal courseId={courseId} mod={mod} />
+                  <form action={async () => { "use server"; await deleteModule(mod.id, courseId); }}>
+                    <Button variant="ghost" size="sm" className="text-red-500 h-6">Excluir</Button>
+                  </form>
+                </div>
               </CardHeader>
               <CardContent className="p-4 space-y-4">
                 <ul className="space-y-2">
@@ -58,9 +62,12 @@ export default async function AdminCourseDetails({ params }: { params: Promise<{
                         {lesson.videoUrl && <span className="text-xs text-gray-500">Vídeo </span>}
                         {lesson.pdfUrl && <span className="text-xs text-gray-500">PDF </span>}
                       </div>
-                      <form action={async () => { "use server"; await deleteLesson(lesson.id, courseId); }}>
-                        <Button variant="destructive" size="sm" className="h-6">Apagar</Button>
-                      </form>
+                      <div className="flex gap-2">
+                        <EditLessonModal courseId={courseId} lesson={lesson} />
+                        <form action={async () => { "use server"; await deleteLesson(lesson.id, courseId); }}>
+                          <Button variant="destructive" size="sm" className="h-6">Apagar</Button>
+                        </form>
+                      </div>
                     </li>
                   ))}
                   {mod.lessons.length === 0 && <p className="text-xs text-gray-400 italic">Nenhuma aula. Adicione abaixo.</p>}

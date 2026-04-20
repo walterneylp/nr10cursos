@@ -28,12 +28,28 @@ export async function deleteModule(id: string, courseId: string) {
   revalidatePath(`/admin/courses/${courseId}`);
 }
 
+export async function updateModule(id: string, courseId: string, formData: FormData) {
+  const title = formData.get("title") as string;
+  const order = parseInt(formData.get("order") as string) || 0;
+  await prisma.module.update({ where: { id }, data: { title, order } });
+  revalidatePath(`/admin/courses/${courseId}`);
+}
+
 export async function createLesson(moduleId: string, courseId: string, formData: FormData) {
   const title = formData.get("title") as string;
   const videoUrl = formData.get("videoUrl") as string;
   const pdfUrl = formData.get("pdfUrl") as string;
   const order = parseInt(formData.get("order") as string) || 0;
   await prisma.lesson.create({ data: { moduleId, title, videoUrl, pdfUrl, order } });
+  revalidatePath(`/admin/courses/${courseId}`);
+}
+
+export async function updateLesson(id: string, courseId: string, formData: FormData) {
+  const title = formData.get("title") as string;
+  const videoUrl = formData.get("videoUrl") as string;
+  const pdfUrl = formData.get("pdfUrl") as string;
+  const order = parseInt(formData.get("order") as string) || 0;
+  await prisma.lesson.update({ where: { id }, data: { title, videoUrl, pdfUrl, order } });
   revalidatePath(`/admin/courses/${courseId}`);
 }
 
